@@ -6,8 +6,6 @@
 
 #include "util.h"
 #include "net.h"
-#include "ip.h"
-#include "icmp.h"
 
 struct net_protocol
 {
@@ -266,6 +264,9 @@ void net_shutdown(void)
     intr_shutdown();
     debugf("shutting down...");
 }
+
+#include "ip.h"
+#include "icmp.h"
 
 int net_init(void)
 {

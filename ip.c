@@ -247,7 +247,7 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev)
         return;
     }
 
-    sum = cksum16((uint16_t *)data, len, 0);
+    sum = cksum16((uint16_t *)data, hlen, 0);
     if (sum & 0x1111)
     {
         errorf("checksum failed");
