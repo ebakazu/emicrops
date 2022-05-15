@@ -236,14 +236,14 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev)
     hlen = hl << 2;
     if (hlen > len)
     {
-        errorf("data length shorter than header length. len: %zu, hlen: %u", len, hlen);
+        errorf("header length invalid. len: %zu, hlen: %u", len, hlen);
         return;
     }
 
     total = ntoh16(hdr->total);
     if (total > len)
     {
-        errorf("data length shorter than total length. len: %zu, total: %u", len, total);
+        errorf("total length invalid. len: %zu, total: %u", len, total);
         return;
     }
 
@@ -281,7 +281,7 @@ static void ip_input(const uint8_t *data, size_t len, struct net_device *dev)
     {
         if (proto->type == hdr->protocol)
         {
-            proto->handler(data, len, hdr->src, hdr->dst, iface);
+            proto->handler((uint8_t *)hdr + hlen, total - hlen, hdr->src, hdr->dst, iface);
             return;
         }
     }
